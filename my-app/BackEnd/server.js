@@ -76,6 +76,11 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something went wrong!');
 });
 
+app.get('/api/movies', async (req, res) => {
+  const movies = await Movie.find({});
+  res.json(movies);
+});
+
 
 // return movies as JSON
 app.get("/api/movies", (req, res) => {
@@ -118,6 +123,11 @@ app.get("/api/movies", (req, res) => {
     // status ok
     res.status(200).json({ myMovies: movies });
 
+});
+
+app.get('/api/movie/:id', async (req, res) => {
+  const movie = await Movie.findById(req.params.id);
+  res.send(movie);
 });
 
 // log port to console
