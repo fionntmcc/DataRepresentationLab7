@@ -20,6 +20,14 @@
 const mongoose = require('mongoose');
 mongoose.connect('my_db_connection_string');
 
+const movieSchema = new mongoose.Schema({
+  title: String,
+  year: String,
+  poster: String
+});
+
+const Movie = mongoose.model('Movie', movieSchema);
+
 const express = require('express');
 const app = express();
 
@@ -97,9 +105,15 @@ app.get("/api/movies", (req, res) => {
       ];
 
       // post response to client about added movie
-      app.post("/api/movies", (req, res) => {
-        res.send("Movie added!")
-      });
+      app.post('/api/movies', async (req, res)=>{
+
+        const { title, year, poster } = req.body;
+       
+        const newMovie = new Movie({ title, year, poster });
+        await newMovie.save();
+       
+        res.status(201).json({ message: 'Movie created successfully', movie: newMovie });
+        })
 
     // status ok
     res.status(200).json({ myMovies: movies });
