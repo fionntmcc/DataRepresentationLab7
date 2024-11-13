@@ -4,6 +4,21 @@
     handles routes and uses URL params
 */
 
+/*
+    MongoDB --> NoSQL database
+    Stores data in documents, KV pairs, graphs
+    More scalable and flexible than traditional relational DBs.
+    Ideal for handling large volumes of 
+    unstructured and semi-structured data.
+    Suits applications that have rapidly changing data needs.
+
+    MongoDB is well-suited for modern web apps, especially good
+    with apps made with MERN stack (MongoDB, Express, React, Node.js).
+    Model is both flexible and powerful, allowing for complex,
+    nested data structures and rapid data retrieval.
+*/
+
+
 const express = require('express');
 const app = express();
 
