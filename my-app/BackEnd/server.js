@@ -47,6 +47,14 @@ app.use(function (req, res, next) {
   next();
 });
 
+// return movies as JSON
+// "api/movies", returns all movies
+app.get("/api/movies", async (req, res) => {
+  const movies = await Movie.find({});
+  res.json(movies);
+
+});
+
 /*
     In post http requests, the data is returned in the body of the response.
     BodyParser allows for us to parse the returned data easily,
