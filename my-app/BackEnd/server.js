@@ -17,7 +17,8 @@
     Model is both flexible and powerful, allowing for complex,
     nested data structures and rapid data retrieval.
 */
-
+const mongoose = require('mongoose');
+mongoose.connect('my_db_connection_string');
 
 const express = require('express');
 const app = express();
