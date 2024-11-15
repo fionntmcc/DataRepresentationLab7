@@ -17,42 +17,21 @@
     Model is both flexible and powerful, allowing for complex,
     nested data structures and rapid data retrieval.
 */
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://admin:admin@admin/?ssl=true&replicaSet=atlas-8djb00-shard-0&authSource=admin&retryWrites=true&w=majority&appName=MernDB');
-
-const movieSchema = new mongoose.Schema({
-  title: String,
-  year: String,
-  poster: String
-});
-
-const Movie = mongoose.model('Movie', movieSchema);
-
 const express = require('express');
 const app = express();
-
 const port = 4000; // port for website
-
-const cors = require('cors');
-app.use(cors());
 
 /* 
     cors is a middleware that defines what a ips are allowed to communicate
     with the server. Protects against DOS attacks, etc.
 */
+const cors = require('cors');
+app.use(cors());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
-});
-
-// return movies as JSON
-// "api/movies", returns all movies
-app.get("/api/movies", async (req, res) => {
-  const movies = await Movie.find({});
-  res.json(movies);
-
 });
 
 /*
@@ -69,7 +48,26 @@ app.use(bodyParser.json());
     This is necessary because unlike the get method, data
     is returned in the body, and not the URL.
 */
-//const bodyParser = require('body-parser');
+
+// DB connection with mongoose
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://admin:admin@admin/?ssl=true&replicaSet=atlas-8djb00-shard-0&authSource=admin&retryWrites=true&w=majority&appName=MernDB');
+
+const movieSchema = new mongoose.Schema({
+  title: String,
+  year: String,
+  poster: String
+});
+
+const Movie = mongoose.model('Movie', movieSchema);
+
+// return movies as JSON
+// "api/movies", returns all movies
+app.get("/api/movies", async (req, res) => {
+  const movies = await Movie.find({});
+  res.json(movies);
+
+});
 
 const path = require('path');
 const { stringify } = require('querystring');
@@ -92,8 +90,6 @@ app.get('/api/movies', async (req, res) => {
 });
 */
 
-
-
 // post response to client about added movie
 app.post('/api/movies', async (req, res) => {
 
@@ -106,7 +102,7 @@ app.post('/api/movies', async (req, res) => {
 });
 
 // get movie by id
-app.get('/api/movie/:id', async (req, res) => {
+app.get('/api/movies/:id', async (req, res) => {
   const movie = await Movie.findById(req.params.id);
   res.send(movie);
 });
